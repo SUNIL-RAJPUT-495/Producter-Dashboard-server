@@ -5,10 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-  "start": "node server.js",
-  "dev": "nodemon server.js"
-}
-,
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,6 +20,7 @@
     "mongoose": "^9.0.1",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
+    "path-to-regexp": "^0.1.12",
     "resend": "^6.6.0"
   },
   "devDependencies": {

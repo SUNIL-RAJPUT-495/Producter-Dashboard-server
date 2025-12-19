@@ -1,45 +1,45 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import morgan from "morgan";
+
 import connectDB from "./config/db.js";
 import userRouter from "./routes/user.router.js";
 import productRouter from "./routes/product.router.js";
 import uploadRouter from "./routes/upload.routes.js";
-import morgan from "morgan";
 
 dotenv.config();
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://producter-dashboard-client.vercel.app"
-];
-
+/* CORS */
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (!allowedOrigins.includes(origin)) {
-      return callback(new Error("CORS not allowed"), false);
-    }
-    return callback(null, true);
-  },
+  origin: [
+    "http://localhost:5173",
+    "https://producter-dashboard-client-ymgd.vercel.app"
+  ],
   credentials: true
 }));
 
-app.options("*", cors());
+// app.options("*", cors()); // ❌ REMOVE THIS
 
 app.use(express.json());
 app.use(morgan("dev"));
 
+/* Routes */
 app.get("/", (req, res) => {
-  res.send("Server is running 🚀");
+  res.send("Server running 🚀");
 });
 
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/file", uploadRouter);
 
-/* ✅ VERCEL FIX */
-connectDB();
-export default app;
+/* Local server */
+const PORT = process.env.PORT || 5000;
+
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+});
