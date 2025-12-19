@@ -27,7 +27,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.options("*", cors()); // 🔥 preflight fix
+app.options("*", cors());
 
 app.use(express.json());
 app.use(morgan("dev"));
@@ -40,17 +40,6 @@ app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/file", uploadRouter);
 
-const PORT = process.env.PORT || 5000;
-
-const startServer = async () => {
-  try {
-    await connectDB();
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error("Server start error:", error.message);
-  }
-};
-
-startServer();
+/* ✅ VERCEL FIX */
+connectDB();
+export default app;
